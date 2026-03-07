@@ -36,7 +36,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     }
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    if (typeof window !== 'undefined') window.location.href = '/login';
+    if (typeof window !== 'undefined' && !window.location.pathname.startsWith('/shop')) window.location.href = '/login';
     throw new Error('Sessiya tugadi');
   }
 
