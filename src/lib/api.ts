@@ -78,13 +78,8 @@ export const shops = {
   },
   get: (id: number) => request<Shop>(`/shops/${id}/`),
   getBySlug: async (slug: string) => {
-    const all = await request<PaginatedResponse<Shop>>(`/shops/`);
-    return all.results.find(s => {
-      const owner = (s as any).owner_username || '';
-      const expectedSlug = `${owner}-${s.name}`.toLowerCase().replace(/\s+/g, '-');
-      const byName = s.name.toLowerCase().replace(/\s+/g, '-');
-      return expectedSlug === slug || byName === slug || slug.endsWith('-' + byName);
-    }) || null;
+   const res = await request<PaginatedResponse<Shop>>(`/shops/?slug=${slug}`);
+   return res.results[0] || null;
   },
   create: (data: Partial<Shop>) =>
     request<Shop>('/shops/', { method: 'POST', body: JSON.stringify(data) }),
